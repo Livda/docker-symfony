@@ -1,6 +1,5 @@
 FROM alpine:3.8
 
-
 RUN apk add --update \
     php7-apcu \
     php7-ctype \
@@ -31,20 +30,20 @@ RUN apk add --update \
     composer \
     libsodium \
     make \
-    curl
+    curl \
+    tzdata
 
+RUN cp /usr/share/zoneinfo/Europe/Paris /etc/localtime && echo "Europe/Paris" >  /etc/timezone && apk del tzdata
 RUN rm -rf /var/cache/apk/* && rm -rf /tmp/*
 
-ADD symfony.ini /etc/php7/php-fpm.d/
-ADD symfony.ini /etc/php7/cli/conf.d/
+RUN addgroup -g 1000 www-data && adduser -u 1000 -G www-data -D www-data
 
-RUN addgroup www-data
-RUN adduser -u 1000 -D -g '' -G www-data www-data
-
-RUN rm /etc/php7/php-fpm.d/www.conf
-ADD symfony.pool.conf /etc/php7/php-fpm.d/
+ADD files/symfony.ini /etc/php7/php-fpm.d/
+ADD files/symfony.ini /etc/php7/cli/conf.d/
+ADD files/symfony.pool.conf /etc/php7/php-fpm.d/
+RUN rm -f /etc/php7/php-fpm.d/www.conf
 
 CMD ["php-fpm7", "-F"]
 
-WORKDIR /var/www/symfony
-EXPOSE 9001
+WORKDIR /var/www
+EXPOSE 9000

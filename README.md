@@ -2,23 +2,16 @@
 
 ## First run
 
-After you've pulled the repo with 
+After you've pulled the repo with
 
 ```bash
 $ git clone https://github.com/Livda/docker-symfony.git
 ```
 
-Launch all the containers with 
+To install all the containers
 
 ```bash
-$ docker-compose up -d
-```
-
-Then install download all the dependancies
-
-```bash
-$ docker-compose exec -u www-data php composer install
-$ docker-compose exec -u www-data php cp .env .env.local
+$ cd docker-symfony && make install
 ```
 
 After you've edited your hosts file, which is in `/etc/hosts` to add that line
@@ -35,4 +28,4 @@ You should have your brand new Symfony application run at [http://www.changeme.l
 
 You just have to change the nginx config file in `nginx/symfony.conf` and change the `server_name` line.
 
-Rebuild your containers and restart them (i.e. `docker-compose up -d --build`), edit your hosts files to match your new URL and that's all !
+Rebuild your containers and restart them (i.e. `make reset`), edit your hosts files to match your new URL and that's all !
