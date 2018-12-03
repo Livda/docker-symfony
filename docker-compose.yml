@@ -17,8 +17,6 @@ services:
     php:
         build: ./php-fpm
         container_name: php
-        extra_hosts:
-            - "docker.host:127.0.0.1"
         links:
             - database
         networks:
