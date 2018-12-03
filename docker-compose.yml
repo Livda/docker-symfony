@@ -1,0 +1,44 @@
+version: '2'
+services:
+    database:
+        container_name: database
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: symfony
+            MYSQL_USER: symfony
+            MYSQL_PASSWORD: symfony
+        image: mariadb:10
+        networks:
+            - default
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./database:/var/lib/mysql
+    php:
+        build: ./php-fpm
+        container_name: php
+        extra_hosts:
+            - "docker.host:127.0.0.1"
+        links:
+            - database
+        networks:
+            - default
+        volumes:
+            - ./symfony:/var/www/symfony
+            - ./logs/symfony:/var/www/symfony/var/log
+    nginx:
+        build: ./nginx
+        container_name: nginx
+        links:
+            - php
+        networks:
+            - default
+        ports:
+            - "80:80"
+        volumes_from:
+            - php
+        volumes:
+            - ./logs/nginx/:/var/log/nginx
+
+networks:
+  default:
