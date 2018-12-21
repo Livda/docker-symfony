@@ -18,6 +18,7 @@ Then install download all the dependancies
 
 ```bash
 $ docker-compose exec -u www-data php composer install
+$ docker-compose exec -u www-data php cp .env .env.local
 ```
 
 After you've edited your hosts file, which is in `/etc/hosts` to add that line
