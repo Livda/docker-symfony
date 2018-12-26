@@ -1,7 +1,6 @@
-version: '2'
+version: '3'
 services:
     database:
-        container_name: database
         environment:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: symfony
@@ -9,34 +8,44 @@ services:
             MYSQL_PASSWORD: symfony
         image: mariadb:10
         networks:
-            - default
+            - backend
         ports:
             - "3306:3306"
         volumes:
             - ./database:/var/lib/mysql
     php:
         build: ./php-fpm
-        container_name: php
+        depends_on:
+            - database
         links:
             - database
         networks:
-            - default
+            - backend
+            - frontend
+        expose: 
+            - "9000"
         volumes:
-            - ./symfony:/var/www/symfony
-            - ./logs/symfony:/var/www/symfony/var/log
+            - ./symfony:/var/www
+            - ./logs/symfony:/var/www/var/log
+        environment:
+            - COMPOSER_MEMORY_LIMIT=-1
     nginx:
         build: ./nginx
-        container_name: nginx
+        restart: always
+        depends_on:
+            - php
+            - database
         links:
+            - database
             - php
         networks:
-            - default
+            - frontend
         ports:
             - "80:80"
-        volumes_from:
-            - php
         volumes:
             - ./logs/nginx/:/var/log/nginx
+            - ./symfony:/var/www
 
 networks:
-  default:
+    frontend:
+    backend:

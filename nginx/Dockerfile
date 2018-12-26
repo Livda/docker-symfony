@@ -1,16 +1,11 @@
-FROM alpine:3.8
-
-RUN apk add --update nginx
-RUN rm -rf /var/cache/apk/* && rm -rf /tmp/*
+FROM nginx:alpine
 
 ADD nginx.conf /etc/nginx/
 ADD symfony.conf /etc/nginx/conf.d/
 
-RUN echo "upstream php-upstream { server php:9001; }" > /etc/nginx/conf.d/upstream.conf
-
-RUN adduser -D -g '' -G www-data www-data
+RUN rm /etc/nginx/conf.d/default.conf
+RUN echo "upstream php-upstream { server php:9000; }" > /etc/nginx/conf.d/upstream.conf
+RUN addgroup -g 1000 www-data && adduser -u 1000 -G www-data -D www-data
 
 CMD ["nginx"]
-
-EXPOSE 80
-EXPOSE 443
+EXPOSE 80 443
