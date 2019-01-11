@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
     database:
         container_name: database
@@ -26,17 +26,16 @@ services:
             - ./logs/symfony:/var/www/symfony/var/log
     nginx:
         build: ./nginx
-        container_name: nginx
+        container_name: nginx:1-alpine
         links:
             - php
         networks:
             - default
         ports:
             - "80:80"
-        volumes_from:
-            - php
         volumes:
             - ./logs/nginx/:/var/log/nginx
+            - ./symfony:/var/www/symfony
 
 networks:
   default:
