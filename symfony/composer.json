@@ -6,21 +6,21 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
-        "symfony/console": "*",
+        "symfony/console": "^4.2",
         "symfony/flex": "^1.1",
-        "symfony/framework-bundle": "*",
+        "symfony/framework-bundle": "^4.2",
         "symfony/orm-pack": "^1.0",
-        "symfony/property-access": "*",
-        "symfony/routing": "*.*",
-        "symfony/security-bundle": "*",
+        "symfony/property-access": "^4.2",
+        "symfony/routing": "^4.2",
+        "symfony/security-bundle": "^4.2",
         "symfony/serializer-pack": "^1.0",
-        "symfony/yaml": "*"
+        "symfony/yaml": "^4.2"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.0",
         "friendsofphp/php-cs-fixer": "^2.13",
         "symfony/debug-pack": "^1.0",
-        "symfony/dotenv": "*",
+        "symfony/dotenv": "^4.2",
         "symfony/maker-bundle": "^1.9"
     },
     "config": {
